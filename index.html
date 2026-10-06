@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apeksha nigga</title>
+  <style>
+    /* ===================================================== RESET ===================================================== */
+    * {
+      box-sizing: border-box;
+    }
+
+    /* ===================================================== BODY ===================================================== */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #ffd9e8, #dceeff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* ===================================================== HEART RAIN ===================================================== */
+    #heartRain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .heart-drop {
+      position: absolute;
+      top: -40px;
+      width: 16px;
+      height: 16px;
+      background: linear-gradient(135deg, #ffffff, #ff4f91);
+      transform: rotate(45deg);
+      opacity: 0.55;
+      filter: drop-shadow(0 3px 5px rgba(255, 79, 145, 0.25));
+      animation: heartFall linear forwards;
+    }
+
+    .heart-drop::before,
+    .heart-drop::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: inherit;
+      border-radius: 50%;
+    }
+
+    .heart-drop::before {
+      top: -50%;
+      left: 0;
+    }
+
+    .heart-drop::after {
+      left: -50%;
+      top: 0;
+    }
+
+    @keyframes heartFall {
+      0% {
+        transform: translateY(-50px) rotate(45deg) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      50% {
+        transform: translateY(50vh) rotate(45deg) rotate(180deg);
+      }
+      100% {
+        transform: translateY(110vh) rotate(45deg) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* ===================================================== MAIN CARD ===================================================== */
+    .card {
+      width: min(92%, 430px);
+      min-height: 590px;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 30px;
+      padding: 28px 22px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.16);
+      position: relative;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    /* ===================================================== SLIDES ===================================================== */
+    .slide {
+      display: none;
+      height: 525px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      animation: slideIn 0.45s ease;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(25px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+    }
+
+    /* ===================================================== IMAGE STICKERS ===================================================== */
+    .sticker {
+      width: 170px;
+      height: 170px;
+      object-fit: contain;
+      margin-bottom: 18px;
+      filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.12));
+    }
+
+    /* ===================================================== TEXT ===================================================== */
+    h1 {
+      font-size: 29px;
+      color: #ff4f8b;
+      margin: 10px 0;
+    }
+
+    h2 {
+      font-size: 22px;
+      color: #222;
+    }
+
+    p {
+      font-size: 17px;
+      color: #555;
+      line-height: 1.55;
+    }
+
+    .special-text {
+      font-size: 22px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ff4f8b, #ff6fa5, #ffb36b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 10px 0;
+      line-height: 1.4;
+    }
+
+    .special-sub {
+      font-size: 15px;
+      color: #888;
+      font-style: italic;
+      margin-top: 10px;
+    }
+
+    /* ===================================================== NORMAL BUTTON ===================================================== */
+    .next-btn {
+      border: none;
+      background: linear-gradient(135deg, #ff4f8b, #ff6fa5);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-size: 17px;
+      cursor: pointer;
+      margin-top: 20px;
+      box-shadow: 0 7px 18px rgba(255, 79, 139, 0.3);
+      transition: transform 0.2s;
+    }
+
+    .next-btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* ===================================================== SLIDE 3 BUTTON AREA ===================================================== */
+    .trap-area {
+      width: 100%;
+      height: 190px;
+      position: relative;
+      margin-top: 10px;
+    }
+
+    .moving-btn {
+      position: absolute;
+      left: 50%;
+      top: 70px;
+      transform: translateX(-50%);
+      border: none;
+      background: linear-gradient(135deg, #ff4f8b, #ff6fa5);
+      color: white;
+      padding: 13px 25px;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: left 0.35s ease, top 0.35s ease, transform 0.35s ease;
+      white-space: nowrap;
+    }
+
+    .counter {
+      margin-top: 5px;
+      font-size: 13px;
+      color: #999;
+    }
+
+    /* ===================================================== MINI JUMPSCARE ===================================================== */
+    #miniJumpscare {
+      position: fixed;
+      inset: 0;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 9999;
+    }
+
+    #miniJumpscare.show {
+      display: flex;
+    }
+
+    .scareBox {
+      width: 88%;
+      max-width: 360px;
+      background: white;
+      border-radius: 25px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(255, 0, 80, 0.65);
+    }
+
+    .scareBox img {
+      width: 170px;
+      height: 170px;
+      object-fit: contain;
+    }
+
+    .scareBox h1 {
+      color: #ff1744;
+      font-size: 27px;
+      font-weight: 900;
+      margin: 12px 0;
+    }
+
+    .scareBox p {
+      color: #555;
+      font-size: 17px;
+    }
+
+    /* ===================================================== FINAL SLIDE ===================================================== */
+    .final-slide {
+      background: linear-gradient(135deg, #fff176, #ffb36b);
+      border-radius: 24px;
+      margin: -5px;
+      padding: 20px;
+    }
+
+    .final-slide .sticker {
+      width: 190px;
+      height: 190px;
+    }
+
+    .final-slide h1 {
+      color: #ff1744;
+      font-size: 36px;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .final-slide h2 {
+      font-size: 23px;
+      font-weight: 900;
+      margin-top: 5px;
+    }
+
+    .final-text {
+      color: #222;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    /* ===================================================== PROGRESS BAR ===================================================== */
+    .progress {
+      position: absolute;
+      bottom: 13px;
+      left: 20%;
+      width: 60%;
+      height: 5px;
+      background: #eeeeee;
+      border-radius: 10px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 25%;
+      background: #ff4f8b;
+      border-radius: 10px;
+      transition: width 0.4s;
+    }
+
+    /* ===================================================== FINAL HEART BOOST ===================================================== */
+    .heavy-rain .heart-drop {
+      opacity: 0.9;
+      filter: drop-shadow(0 4px 8px rgba(255, 0, 90, 0.35));
+    }
+  </style>
+</head>
+<body>
+  <!-- ===================================================== AUDIO SECTION =====================================================
+       FILE 1: apekshe.mp3  → background music (plays throughout)
+       FILE 2: hii.mp3      → jumpscare "faa" sound (starts 1s into the clip, plays instantly on final slide)
+  ===================================================== -->
+  <audio id="bgAudio" loop preload="auto">
+    <source src="apekshe.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="scareAudio" preload="auto">
+    <source src="hii.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- ===================================================== HEART RAIN ===================================================== -->
+  <div id="heartRain"></div>
+
+  <!-- ===================================================== MAIN CARD ===================================================== -->
+  <div class="card">
+    <!-- SLIDE 1 -->
+    <div class="slide active">
+      <img class="sticker" src="sss.jpg" alt="Slide 1 image">
+      <h1>Apeksha Auntie...</h1>
+      <div class="special-text">
+        Something special<br>for you ❤️
+      </div>
+      <p class="special-sub">(just trust the process...)</p>
+      <button class="next-btn" onclick="startAudioAndNext()">Continue</button>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide">
+      <img class="sticker" src="lll.png" alt="Slide 2 image">
+      <h1>I've discovered something.</h1>
+      <p>
+        I've been collecting evidence.<br><br>
+        I checked the facts.<br>
+        I checked them again.<br><br>
+        Something is definitely suspicious.
+      </p>
+      <button class="next-btn" onclick="nextSlide()">I want to know</button>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide">
+      <img class="sticker" src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="Slide 3 image">
+      <h1>One last step.</h1>
+      <p>
+        Click the button.<br>
+        If you can.
+      </p>
+      <div class="trap-area">
+        <button id="movingButton" class="moving-btn" onclick="handleButton()">NEXT</button>
+      </div>
+      <div class="counter" id="counter">Attempts: 0</div>
+    </div>
+
+    <!-- 2 SECOND JUMPSCARE -->
+    <div id="miniJumpscare">
+      <div class="scareBox">
+        <img src="bbb.jpg" alt="Jumpscare image">
+        <h1>DON'T CLICK TOO FAST</h1>
+        <p>Gadhi thoda dheere click karo...<br>loading.</p>
+      </div>
+    </div>
+
+    <!-- FINAL SLIDE -->
+    <div class="slide final-slide" id="finalSlide">
+      <img class="sticker" src="hey.png" alt="Final image">
+      <h1>APEKSHA AUNTIE</h1>
+      <h2>YOU HAVE A BIG FOREHEAD</h2>
+      <p class="final-text">
+        That's it.<br><br>
+        Created by the goat Talib.
+      </p>
+      <button class="next-btn" onclick="restart()">Again</button>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress">
+      <div class="progress-bar" id="progress"></div>
+    </div>
+  </div>
+
+  <script>
+    /* ===================================================== VARIABLES ===================================================== */
+    let currentSlide = 0;
+    let attempts = 0;
+    let scareShown = false;
+
+    const slides = document.querySelectorAll(".slide");
+    const progress = document.getElementById("progress");
+    const movingButton = document.getElementById("movingButton");
+    const counter = document.getElementById("counter");
+    const miniJumpscare = document.getElementById("miniJumpscare");
+
+    /* ===================================================== AUDIO ===================================================== */
+    const bgAudio = document.getElementById("bgAudio");
+    const scareAudio = document.getElementById("scareAudio");
+
+    bgAudio.volume = 0.7;
+    scareAudio.volume = 0.9;
+
+    /* ============================================================
+       🎵 SCARE AUDIO SETTING
+       SCARE_TRIM = seconds to SKIP at the start of hii.mp3.
+       The "faa" sound plays INSTANTLY when the final slide appears,
+       but jumps 1 second into the clip.
+       ============================================================ */
+    const SCARE_TRIM = 1.0;
+
+    function startAudioAndNext() {
+      bgAudio.play()
+        .then(() => {
+          console.log("apekshe.mp3 started");
+        })
+        .catch((error) => {
+          console.log("Audio error:", error);
+        });
+      nextSlide();
+    }
+
+    /* ===================================================== NEXT SLIDE ===================================================== */
+    function nextSlide() {
+      if (currentSlide >= slides.length - 1) {
+        return;
+      }
+      slides[currentSlide].classList.remove("active");
+      currentSlide++;
+      slides[currentSlide].classList.add("active");
+      progress.style.width = ((currentSlide + 1) / slides.length * 100) + "%";
+    }
+
+    /* ===================================================== SLIDE 3 BUTTON ===================================================== */
+    function handleButton() {
+      attempts++;
+      counter.innerText = "Attempts: " + attempts;
+
+      if (attempts === 3 && !scareShown) {
+        scareShown = true;
+        miniJumpscare.classList.add("show");
+        setTimeout(() => {
+          miniJumpscare.classList.remove("show");
+          moveButton();
+          movingButton.innerText = "TRY AGAIN";
+        }, 2000);
+        return;
+      }
+
+      if (attempts < 6) {
+        moveButton();
+        const messages = ["NOPE", "TRY AGAIN", "ALMOST", "NOT YET", "ONE MORE"];
+        movingButton.innerText = messages[Math.min(attempts - 1, messages.length - 1)];
+        return;
+      }
+
+      movingButton.innerText = "NEXT";
+      movingButton.style.left = "50%";
+      movingButton.style.top = "70px";
+      movingButton.style.transform = "translateX(-50%)";
+      movingButton.onclick = showFinal;
+    }
+
+    /* ===================================================== RANDOM BUTTON POSITION ===================================================== */
+    function moveButton() {
+      const area = document.querySelector(".trap-area");
+      const maxX = area.clientWidth - movingButton.offsetWidth;
+      const maxY = area.clientHeight - movingButton.offsetHeight;
+      const x = Math.random() * Math.max(maxX, 10);
+      const y = Math.random() * Math.max(maxY, 10);
+      movingButton.style.left = x + "px";
+      movingButton.style.top = y + "px";
+      movingButton.style.transform = "none";
+    }
+
+    /* ===================================================== FINAL REVEAL ===================================================== */
+    function showFinal() {
+      slides[currentSlide].classList.remove("active");
+      currentSlide = 3;
+      slides[currentSlide].classList.add("active");
+      progress.style.width = "100%";
+      document.body.classList.add("heavy-rain");
+
+      /* ============================================
+         🔊 BACKGROUND MUSIC KEEPS PLAYING
+      ============================================ */
+      if (bgAudio.paused) {
+        bgAudio.play().catch((e) => console.log("bg play error:", e));
+      }
+
+      /* ============================================
+         😱 "FAA" JUMpscare SOUND — INSTANT
+         Plays hii.mp3 immediately, but starts
+         1 second INTO the clip so the loud
+         "FAA" hits right as the slide appears.
+      ============================================ */
+      scareAudio.currentTime = SCARE_TRIM;
+      scareAudio.play()
+        .then(() => {
+          console.log("FAAA sound hit instantly (skipped 1s of silence)");
+        })
+        .catch((error) => {
+          console.log("Jumpscare audio error:", error);
+        });
+
+      for (let i = 0; i < 30; i++) {
+        setTimeout(createHeart, i * 40);
+      }
+    }
+
+    /* ===================================================== RESTART ===================================================== */
+    function restart() {
+      slides[currentSlide].classList.remove("active");
+      currentSlide = 0;
+      attempts = 0;
+      scareShown = false;
+      miniJumpscare.classList.remove("show");
+      slides[currentSlide].classList.add("active");
+      progress.style.width = "25%";
+      movingButton.innerText = "NEXT";
+      movingButton.style.left = "50%";
+      movingButton.style.top = "70px";
+      movingButton.style.transform = "translateX(-50%)";
+      movingButton.onclick = handleButton;
+      counter.innerText = "Attempts: 0";
+      document.body.classList.remove("heavy-rain");
+
+      /* Stop both audios and reset */
+      scareAudio.pause();
+      scareAudio.currentTime = 0;
+      bgAudio.pause();
+      bgAudio.currentTime = 0;
+    }
+
+    /* ===================================================== CREATE CSS HEART ===================================================== */
+    const heartRain = document.getElementById("heartRain");
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart-drop");
+      heart.style.left = Math.random() * 100 + "vw";
+
+      const size = Math.random() * 14 + 8;
+      heart.style.width = size + "px";
+      heart.style.height = size + "px";
+
+      const duration = Math.random() * 4 + 4;
+      heart.style.animationDuration = duration + "s";
+      heart.style.opacity = Math.random() * 0.45 + 0.25;
+
+      const colors = ["#ff4f91", "#ff6fa5", "#ff8fba", "#ffb3cb"];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      heart.style.background = `linear-gradient(135deg, #ffffff, ${color})`;
+
+      heartRain.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, (duration + 1) * 1000);
+    }
+
+    /* ===================================================== CONTINUOUS HEART RAIN ===================================================== */
+    setInterval(createHeart, 300);
+
+    for (let i = 0; i < 12; i++) {
+      setTimeout(createHeart, i * 180);
+    }
+  </script>
+</body>
+</html>
